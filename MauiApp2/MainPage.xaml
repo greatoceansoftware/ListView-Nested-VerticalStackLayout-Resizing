@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MauiApp2"
+             x:Class="MauiApp2.MainPage">
+
+  <ContentPage.Resources>
+    <local:BooleanTrueToVisibilityFalseConverter x:Key="BooleanTrueToVisibilityFalseConverter"/>
+  </ContentPage.Resources>
+
+  <Grid RowDefinitions="Auto, *" ColumnDefinitions="*, *">
+    <HorizontalStackLayout 
+      Grid.Row="0" 
+      Grid.ColumnSpan="2"
+      Padding="30"
+      >
+      <Label 
+        Text="Declutter" 
+        VerticalTextAlignment="Center"
+        />
+      <Switch 
+        x:Name="SwitchDeclutter" 
+        VerticalOptions="Center" 
+        Toggled="SwitchDeclutter_Toggled"
+        />
+      <Button 
+        x:Name="ButtonReset" 
+        Text="Reset" 
+        Clicked="ButtonReset_Clicked"
+        />
+    </HorizontalStackLayout>
+    
+    <Grid 
+      Grid.Row="1"
+      Grid.Column="0"
+      RowDefinitions="Auto, Auto"
+    >
+      <VerticalStackLayout 
+        Grid.Row="1"
+        BindableLayout.ItemsSource="{Binding Phase.Goals[0].Activities}" 
+        MinimumWidthRequest="500"
+      >
+        <BindableLayout.ItemTemplate>
+          <DataTemplate>
+            <Grid
+              BackgroundColor="White"
+            >
+              <Button 
+                x:Name="ButtonActivity"
+                Background="LightYellow"
+                Text="{Binding Name}"
+                TextColor="Black"
+                FontSize="Small"
+                FontAttributes="Bold" 
+                Margin="5"
+                IsVisible="{Binding IsFiltered, Converter={StaticResource BooleanTrueToVisibilityFalseConverter}}"
+              />
+            </Grid>
+          </DataTemplate>
+        </BindableLayout.ItemTemplate>
+      </VerticalStackLayout>
+    </Grid>
+
+    <Grid 
+      Grid.Row="1"
+      Grid.Column="1"
+      RowDefinitions="Auto, Auto"
+    >
+      <ListView
+        Grid.Row="1"
+        ItemsSource="{Binding Phase.Goals}"
+      >
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+              <Grid
+                ColumnDefinitions="Auto, *"
+              >
+                <Button 
+                  Grid.Column="0" 
+                  Text="{Binding Name}" 
+                  BackgroundColor="LightSeaGreen"
+                  Margin="5"
+                />
+                <VerticalStackLayout 
+                  Grid.Column="1"
+                  BindableLayout.ItemsSource="{Binding Activities}" 
+                >
+                  <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                      <Grid
+                        BackgroundColor="White"
+                      >
+                        <Button 
+                          x:Name="ButtonActivity"
+                          Background="LightYellow"
+                          Text="{Binding Name}"
+                          TextColor="Black"
+                          FontSize="Small"
+                          FontAttributes="Bold" 
+                          Margin="5"
+                          IsVisible="{Binding IsFiltered, Converter={StaticResource BooleanTrueToVisibilityFalseConverter}}"
+                        />
+                      </Grid>
+                    </DataTemplate>
+                  </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+              </Grid>
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+    </Grid>
+
+  </Grid>
+  
+</ContentPage>
